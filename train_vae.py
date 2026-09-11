@@ -34,7 +34,8 @@ class Vision :
         except Exception as e: 
             print('Exception occured\n')
             print(f'{e}\n')
-            print(f'Checkpoint is missing because no model is trained. First train a model with {self.train.__name__}\n')
+            if e == FileNotFoundError :
+                print(f'Checkpoint is missing because no model is trained. First train a model with {self.train.__name__}\n')
 
         
 
@@ -81,9 +82,7 @@ class Vision :
 
                     # Flatten 
                     x = x.view(x.size(0), -1).to(self.device)
-
                     optimizer.zero_grad()
-
                     reconstruction, mu, logvar = model(x)
 
                     loss = self._vae_loss(
@@ -106,7 +105,7 @@ class Vision :
             torch.save(model,self.path)
             self.model = model
             end = time.time()
-
+            print('Training finished')
             print(f'Time taken for training : {end - start:.2f}')
 
 
@@ -139,13 +138,6 @@ class Vision :
         else :
             print('No model present please perform training first\n')
 
-
-class MDN(torch.nn.Module) :
-
-    def __init__(self,layers,gaussians):
-        super.__init__()
-        self.layers = layers
-        self.gaussians = gaussians
 
     
            
