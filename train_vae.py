@@ -1,6 +1,6 @@
 
 from vae import VAE
-import torch,time,random,os
+import torch,time,random
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 from torchvision import datasets,transforms
@@ -59,13 +59,12 @@ class Vision :
         if self.model :
             print('Do you want to retrain the model?(y/n) ')
             choice = input()
-            while choice not in ['y','n'] :
-                os.system('clear')
+            while choice not in ['y','n','Y','N'] :
                 print(f'Please enter correct choice(y,n) ')
                 choice = input()
             
 
-        if choice == 'y' or self.model == None :
+        if choice == 'y' or choice == 'Y' or self.model == None :
 
             model = VAE(self.dim).to(device=self.device)
             optimizer = torch.optim.Adam(
